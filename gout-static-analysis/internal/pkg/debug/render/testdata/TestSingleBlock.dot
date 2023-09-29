@@ -1,0 +1,53 @@
+digraph {
+	subgraph cluster_0 {
+		color=black;
+		label="entry";
+		"t0 = local image.Point (p)\n(Alloc)" [shape=rectangle];
+		"t1 = &t0.X [#0]\n(FieldAddr)" [shape=rectangle];
+		"t2 = &t0.Y [#1]\n(FieldAddr)" [shape=rectangle];
+		"*t1 = 1:int\n(Store)" [shape=diamond];
+		"*t2 = 2:int\n(Store)" [shape=diamond];
+		"t3 = &t0.X [#0]\n(FieldAddr)" [shape=rectangle];
+		"*t3 = 3:int\n(Store)" [shape=diamond];
+		"t4 = &t0.Y [#1]\n(FieldAddr)" [shape=rectangle];
+		"*t4 = 4:int\n(Store)" [shape=diamond];
+		"t5 = &t0.X [#0]\n(FieldAddr)" [shape=rectangle];
+		"t6 = *t5\n(UnOp)" [shape=rectangle];
+		"t7 = &t0.Y [#1]\n(FieldAddr)" [shape=rectangle];
+		"t8 = *t7\n(UnOp)" [shape=rectangle];
+		"t9 = t6 + t8\n(BinOp)" [shape=rectangle];
+		"t10 = new [1]interface{} (varargs)\n(Alloc)" [shape=rectangle];
+		"t11 = &t10[0:int]\n(IndexAddr)" [shape=rectangle];
+		"t12 = make interface{} <- int (t9)\n(MakeInterface)" [shape=rectangle];
+		"*t11 = t12\n(Store)" [shape=diamond];
+		"t13 = slice t10[:]\n(Slice)" [shape=rectangle];
+		"t14 = fmt.Println(t13...)\n(Call)" [shape=rectangle];
+		"return\n(Return)" [shape=diamond];
+	}
+	"t0 = local image.Point (p)\n(Alloc)" -> "t1 = &t0.X [#0]\n(FieldAddr)" [color=orange];
+	"t0 = local image.Point (p)\n(Alloc)" -> "t2 = &t0.Y [#1]\n(FieldAddr)" [color=orange];
+	"t1 = &t0.X [#0]\n(FieldAddr)" -> "*t1 = 1:int\n(Store)" [color=orange];
+	"1:int\n(Const)" -> "*t1 = 1:int\n(Store)" [color=orange];
+	"t2 = &t0.Y [#1]\n(FieldAddr)" -> "*t2 = 2:int\n(Store)" [color=orange];
+	"2:int\n(Const)" -> "*t2 = 2:int\n(Store)" [color=orange];
+	"t0 = local image.Point (p)\n(Alloc)" -> "t3 = &t0.X [#0]\n(FieldAddr)" [color=orange];
+	"t3 = &t0.X [#0]\n(FieldAddr)" -> "*t3 = 3:int\n(Store)" [color=orange];
+	"3:int\n(Const)" -> "*t3 = 3:int\n(Store)" [color=orange];
+	"t0 = local image.Point (p)\n(Alloc)" -> "t4 = &t0.Y [#1]\n(FieldAddr)" [color=orange];
+	"t4 = &t0.Y [#1]\n(FieldAddr)" -> "*t4 = 4:int\n(Store)" [color=orange];
+	"4:int\n(Const)" -> "*t4 = 4:int\n(Store)" [color=orange];
+	"t0 = local image.Point (p)\n(Alloc)" -> "t5 = &t0.X [#0]\n(FieldAddr)" [color=orange];
+	"t5 = &t0.X [#0]\n(FieldAddr)" -> "t6 = *t5\n(UnOp)" [color=orange];
+	"t0 = local image.Point (p)\n(Alloc)" -> "t7 = &t0.Y [#1]\n(FieldAddr)" [color=orange];
+	"t7 = &t0.Y [#1]\n(FieldAddr)" -> "t8 = *t7\n(UnOp)" [color=orange];
+	"t6 = *t5\n(UnOp)" -> "t9 = t6 + t8\n(BinOp)" [color=orange];
+	"t8 = *t7\n(UnOp)" -> "t9 = t6 + t8\n(BinOp)" [color=orange];
+	"t10 = new [1]interface{} (varargs)\n(Alloc)" -> "t11 = &t10[0:int]\n(IndexAddr)" [color=orange];
+	"0:int\n(Const)" -> "t11 = &t10[0:int]\n(IndexAddr)" [color=orange];
+	"t9 = t6 + t8\n(BinOp)" -> "t12 = make interface{} <- int (t9)\n(MakeInterface)" [color=orange];
+	"t11 = &t10[0:int]\n(IndexAddr)" -> "*t11 = t12\n(Store)" [color=orange];
+	"t12 = make interface{} <- int (t9)\n(MakeInterface)" -> "*t11 = t12\n(Store)" [color=orange];
+	"t10 = new [1]interface{} (varargs)\n(Alloc)" -> "t13 = slice t10[:]\n(Slice)" [color=orange];
+	"Println\n(Function)" -> "t14 = fmt.Println(t13...)\n(Call)" [color=orange];
+	"t13 = slice t10[:]\n(Slice)" -> "t14 = fmt.Println(t13...)\n(Call)" [color=orange];
+}
